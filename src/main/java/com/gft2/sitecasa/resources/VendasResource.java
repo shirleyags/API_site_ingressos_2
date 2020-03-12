@@ -22,6 +22,7 @@ import com.gft2.sitecasa.services.VendasService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 
 @Api(tags="Vendas")
@@ -40,16 +41,16 @@ public class VendasResource {
 		return ResponseEntity.status(HttpStatus.OK).body(vendasService.listar());
 	}
 	
-	@ApiOperation("Busca vendas específicos por ID")
+	@ApiOperation("Busca vendas específicas por ID")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Optional<Venda>> buscar(@PathVariable("id") Long id) {
+	public ResponseEntity<Optional<Venda>> buscar(@ApiParam(value="ID de uma venda", example="1")@PathVariable("id") Long id) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(vendasService.buscar(id));
 	}
 	
 	@ApiOperation("Salva vendas")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> salvar(@Valid @RequestBody Venda venda) {
+	public ResponseEntity<Void> salvar(@ApiParam (value="Representação de uma nova venda")@Valid @RequestBody Venda venda) {
 		venda = vendasService.salvar(venda);
 
 		URI umaUri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();

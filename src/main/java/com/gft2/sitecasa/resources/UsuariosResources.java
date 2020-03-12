@@ -22,6 +22,7 @@ import com.gft2.sitecasa.services.UsuariosService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Api(tags="Usuários")
 @RestController
@@ -41,7 +42,7 @@ public class UsuariosResources {
 	
 	@ApiOperation("Busca usuários específicos por ID")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Optional<Usuario>> buscar(@PathVariable("id") Long id) {
+	public ResponseEntity<Optional<Usuario>> buscar(@ApiParam(value="ID do usuário", example="1")@PathVariable("id") Long id) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(usuariosService.buscar(id));
 	}
@@ -49,7 +50,7 @@ public class UsuariosResources {
 	
 	@ApiOperation("Salva usuários")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> salvar(@Valid @RequestBody Usuario usuario) {
+	public ResponseEntity<Void> salvar(@ApiParam (value="Representação de um novo usuário")@Valid @RequestBody Usuario usuario) {
 		usuario = usuariosService.salvar(usuario);
 
 		URI umaUri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();

@@ -45,7 +45,7 @@ public class CasasResource {
 
 	@ApiOperation("Salva  as casas de show")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> salvar(@ApiParam(name="corpo", value="Objeto Casa de Show") @Valid @RequestBody CasaShow casa) {
+	public ResponseEntity<Void> salvar(@ApiParam (value="Representação de uma nova casa de show") @Valid @RequestBody CasaShow casa) {
 		casa = casasService.salvar(casa);
 
 		URI umaUri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
@@ -64,7 +64,7 @@ public class CasasResource {
 	
 	@ApiOperation("Apaga as casas de show por ID")
 	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE) 
-	public ResponseEntity<Void> deletar(@PathVariable("id")Long id) {
+	public ResponseEntity<Void> deletar(@ApiParam(value="ID da casa de show", example="1") @PathVariable("id")Long id) {
 		casasService.deletar(id);
 		return ResponseEntity.noContent().build();
 		
@@ -73,15 +73,13 @@ public class CasasResource {
 	
 	@ApiOperation("Atualiza as casas de show")
 	@RequestMapping(value ="/{id}", method = RequestMethod.PUT) 
-	public  ResponseEntity<Void> atualizar(@RequestBody CasaShow cadaShow, @PathVariable("id")Long id) {
+	public  ResponseEntity<Void> atualizar(@ApiParam(name="corpo", value="Representação da casa de show com novos dados")@RequestBody CasaShow cadaShow, @ApiParam(value="ID de uma casa de show", example="1")@PathVariable("id")Long id) {
 		cadaShow.setId(id);
 		casasService.atualizar(cadaShow);
 	return ResponseEntity.noContent().build();
 	}
 	
 
-	
-	
 	@ApiOperation("Lista as casas de show em ordem alfabética crescente")
 	@RequestMapping (value ="/asc", method = RequestMethod.GET)
 	public ResponseEntity<List<CasaShow>> listarOrdemAlfabeticaCrescente() {
@@ -97,7 +95,7 @@ public class CasasResource {
 	
 	@ApiOperation("Permite a localização da casa de show pelo nome")
 	@RequestMapping (value ="/nome/{casa}", method = RequestMethod.GET)
-	public ResponseEntity<List<CasaShow>> pesquisar(@PathVariable("casa")String casa){
+	public ResponseEntity<List<CasaShow>> pesquisar(@ApiParam(value="Nome da casa de show", example="1")@PathVariable("casa")String casa){
 		return ResponseEntity.status(HttpStatus.OK).body(casasService.pesquisar(casa));
 	}
 	

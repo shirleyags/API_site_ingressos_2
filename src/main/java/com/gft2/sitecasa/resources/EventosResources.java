@@ -25,6 +25,7 @@ import com.gft2.sitecasa.services.EventosService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 
 @Api(tags="Eventos")
@@ -47,7 +48,7 @@ public class EventosResources {
 	
 	@ApiOperation("Salva eventos")
 	@RequestMapping(method = RequestMethod.POST) //É POST PORQUE VAI PEGAR DA URL E SALVAR
-	public ResponseEntity<Void> salvar(@Valid @RequestBody Eventos cadaEvento){ 
+	public ResponseEntity<Void> salvar(@ApiParam (value="Representação de uma novo evento")@Valid @RequestBody Eventos cadaEvento){ 
 		eventosService.salvar(cadaEvento);
 		
 		URI umaUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cadaEvento.getId()).toUri();
@@ -57,7 +58,7 @@ public class EventosResources {
 	
 	@ApiOperation("Busca eventos específicos por ID")
 	@RequestMapping(value ="/{id}", method = RequestMethod.GET) //Trazer é GET
-		public ResponseEntity<?> buscar(@PathVariable("id")Long id){
+		public ResponseEntity<?> buscar(@ApiParam(value="ID de um evento", example="1")@PathVariable("id")Long id){
 		Optional<Eventos> cadaEvento = eventosService.buscar(id);
 	
 			return ResponseEntity.status(HttpStatus.OK).body(cadaEvento);
@@ -67,7 +68,7 @@ public class EventosResources {
 	
 	@ApiOperation("Deleta eventos")
 	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE) 
-	public ResponseEntity<Void> deletar(@PathVariable("id")Long id) {
+	public ResponseEntity<Void> deletar(@ApiParam(value="ID de um evento", example="1")@PathVariable("id")Long id) {
 		eventosService.deletar(id);
 		return ResponseEntity.noContent().build();
 		
@@ -75,7 +76,7 @@ public class EventosResources {
 	
 	@ApiOperation("Edita informações do evento")
 	@RequestMapping(value ="/{id}", method = RequestMethod.PUT) 
-	public  ResponseEntity<Void> atualizar(@RequestBody Eventos cadaEvento, @PathVariable("id")Long id) {
+	public  ResponseEntity<Void> atualizar(@ApiParam(name="corpo", value="Representação do evento com novos dados") @RequestBody Eventos cadaEvento, @ApiParam(value="ID de um evento", example="1")@PathVariable("id")Long id) {
 		cadaEvento.setId(id);
 		eventosService.atualizar(cadaEvento);
 	return ResponseEntity.noContent().build();
