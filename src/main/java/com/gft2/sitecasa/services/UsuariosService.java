@@ -22,7 +22,7 @@ public class UsuariosService {
 	
 	public List<Usuario> listar(){
 		List<Usuario> usuario = usuarioRepository.findAll();
-		if (usuario.isEmpty()) {
+		if (usuario==null) {
 			throw new UsuarioNaoEncontradoException("O usuário não pôde ser encontrado!");
 		}
 		return usuario;
@@ -31,7 +31,7 @@ public class UsuariosService {
 
 	public Optional<Usuario> buscar(Long id) {
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		if (usuario.isEmpty()) {
+		if (usuario.isPresent()) {
 			throw new UsuarioNaoEncontradoException("O usuário não pôde ser encontrado!");
 		}
 		return usuario;

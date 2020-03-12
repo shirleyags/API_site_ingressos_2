@@ -17,7 +17,7 @@ public class VendasService {
 	
 	public List<Venda> listar(){
 		List<Venda> venda = vendasRepository.findAll();
-		if (venda.isEmpty()) {
+		if (venda==null) {
 			throw new VendaNaoEncontradaException("A venda não pôde ser encontrado!");
 		}
 		return venda;
@@ -26,7 +26,7 @@ public class VendasService {
 
 	public Optional<Venda> buscar(Long id) {
 		Optional<Venda> venda = vendasRepository.findById(id);
-		if (venda.isEmpty()) {
+		if (venda.isPresent()) {
 			throw new VendaNaoEncontradaException("A venda pôde ser encontrado!");
 		}
 		return venda;

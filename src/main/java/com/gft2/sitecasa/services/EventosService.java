@@ -40,7 +40,7 @@ public class EventosService {
 	
 	public Optional<Eventos> buscar(Long id){
 		Optional<Eventos> evento = eventosRepository.findById(id); 
-		if(evento.isEmpty()) {
+		if(evento.isPresent()) {
 			throw new EventoNaoEncontradoException("O evento não pôde ser encontrado!"); 
 		}
 		return evento;
