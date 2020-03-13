@@ -19,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gft2.sitecasa.domain.CasaShow;
 import com.gft2.sitecasa.domain.Eventos;
+import com.gft2.sitecasa.exceptions.CasaDeShowExistenteException;
+import com.gft2.sitecasa.exceptions.EventoExistenteException;
 import com.gft2.sitecasa.exceptions.EventoNaoEncontradoException;
 import com.gft2.sitecasa.repository.EventosRepository;
 
@@ -40,17 +42,27 @@ public class EventosService {
 	
 	public Optional<Eventos> buscar(Long id){
 		Optional<Eventos> evento = eventosRepository.findById(id); 
-		if(evento.isPresent()) {
+		if(evento.isEmpty()) {
 			throw new EventoNaoEncontradoException("O evento não pôde ser encontrado!"); 
 		}
 		return evento;
 }
+
+
 	
 	public Eventos salvar(Eventos cadaEvento){ 
-		cadaEvento.setId(null); //Setar igual a nulo para garantir que será criada uma instância nova, não alterar um objeto já criado. 
-		return  eventosRepository.save(cadaEvento);
-	
+		if(cadaEvento.getId() != null){
+			
+			Eventos a = eventosRepository.findById(cadaEvento.getId()).get();
+			
+			if(a !=null) {
+				throw new EventoExistenteException("O evento já existe.");
+			}
+			
+		}
+		return eventosRepository.save(cadaEvento) ;
 	}
+	
 	
 	public void deletar(Long id) {
 		try {

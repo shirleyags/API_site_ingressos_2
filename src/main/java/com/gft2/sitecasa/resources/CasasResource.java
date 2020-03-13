@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gft2.sitecasa.domain.CasaShow;
+import com.gft2.sitecasa.domain.Eventos;
 import com.gft2.sitecasa.services.CasasService;
 
 import io.swagger.annotations.Api;
@@ -94,7 +95,7 @@ public class CasasResource {
 	
 	@ApiOperation("Permite a localização da casa de show pelo nome")
 	@RequestMapping (value ="/nome/{casa}", method = RequestMethod.GET)
-	public ResponseEntity<CasaShow> pesquisar(@ApiParam(value="Nome da casa de show", example="1")@PathVariable("casa")String casa){
+	public ResponseEntity<List<CasaShow>> pesquisar(@ApiParam(value="Nome da casa de show", example="1")@PathVariable("casa")String casa){
 		return ResponseEntity.status(HttpStatus.OK).body(casasService.pesquisar(casa));
 	}
 	

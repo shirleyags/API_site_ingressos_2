@@ -46,7 +46,7 @@ public class CasasService {
 	
 	public Optional<CasaShow> buscar(Long id) {
 		Optional<CasaShow> casa = casasRepository.findById(id);
-			if(casa.isPresent()) {
+			if(casa.isEmpty()) {
 				throw new CasaDeShowNaoExistenteException("A casa de show não pôde ser encontrado");
 			}
 			
@@ -84,9 +84,9 @@ public class CasasService {
 	
 	
 	
-	public CasaShow pesquisar(String casa){
-		CasaShow listaCasa = casasRepository.findByCasaContaining(casa);
-		if(listaCasa == null) {
+	public List<CasaShow> pesquisar(String casa){
+		List<CasaShow> listaCasa = casasRepository.findByCasaContaining(casa);
+		if(listaCasa.isEmpty()) {
 			throw new CasaDeShowNaoExistenteException("A casa de show não pôde ser encontrada!");
 		}
 		return listaCasa;

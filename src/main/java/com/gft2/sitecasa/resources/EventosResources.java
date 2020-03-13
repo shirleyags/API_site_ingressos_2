@@ -175,7 +175,3 @@ public class EventosResources {
 	
 	
 }
-
-
-
-
